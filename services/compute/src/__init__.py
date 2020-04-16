@@ -2,4 +2,4 @@ import falcon
 
 app = falcon.API()
 
-import src.endpoints
+import src.endpoints  # NOQA

@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def get_columns_from_excel():
     """
     Returns a list of columns in the temporary excel.
