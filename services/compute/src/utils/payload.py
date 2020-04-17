@@ -1,5 +1,4 @@
-import pandas as pd
-
+from . import df
 
 def get_columns_from_excel():
     '''
@@ -7,7 +6,6 @@ def get_columns_from_excel():
     Returns an error if one occurred.
     '''
     try:
-        df = pd.read_excel('src/static/records.xlsx')
         return list(df.columns), None
     except Exception as err:
         return '', err
@@ -23,7 +21,6 @@ def prepare_pivot_payload(column):
     '''
     payload = {}
     try:
-        df = pd.read_excel('src/static/records.xlsx')
         payload['x_axis'] = {
             'column': column,
             'values': list(df[column]),
