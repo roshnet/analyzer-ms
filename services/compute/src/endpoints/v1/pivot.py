@@ -1,7 +1,7 @@
 import falcon
 import json
 from src import app
-from src.utils import prepare_pivot_payload
+from src.utils.payload import prepare_pivot_payload
 
 
 class PivotDataResource:

@@ -1,7 +1,7 @@
 import falcon
 import json
 from src import app
-from src.utils import get_columns_from_excel
+from src.utils.payload import get_columns_from_excel
 
 
 class ViewColumnsResource:
