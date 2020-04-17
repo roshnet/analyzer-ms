@@ -11,7 +11,7 @@ class ViewColumnsResource:
             resp.status = falcon.HTTP_500
             resp.body = json.dumps({
                 'status': 'fail',
-                'error': str(err),
+                'error': err,
             })
         else:
             resp.body = json.dumps({

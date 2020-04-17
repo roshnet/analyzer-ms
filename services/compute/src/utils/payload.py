@@ -8,7 +8,7 @@ def get_columns_from_excel():
     try:
         return list(df.columns), None
     except Exception as err:
-        return '', err
+        return '', str(err)
 
 
 def prepare_pivot_payload(column):
@@ -33,4 +33,4 @@ def prepare_pivot_payload(column):
             })
         return payload, None
     except Exception as err:
-        return '', err
+        return '', str(err)

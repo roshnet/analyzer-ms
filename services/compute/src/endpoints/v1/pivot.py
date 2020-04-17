@@ -11,7 +11,7 @@ class PivotDataResource:
         if err is not None:
             resp.body = json.dumps({
                 'status': 'fail',
-                'error': str(err)
+                'error': err
             })
         else:
             resp.body = json.dumps({
