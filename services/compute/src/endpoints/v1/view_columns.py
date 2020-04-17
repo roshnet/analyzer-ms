@@ -10,14 +10,14 @@ class ViewColumnsResource:
         if err is not None:
             resp.status = falcon.HTTP_500
             resp.body = json.dumps({
-                "status": "fail",
-                "error": str(err)
+                'status': 'fail',
+                'error': str(err)
             })
         else:
             resp.body = json.dumps({
-                "status": "pass",
-                "result": columns
+                'status': 'pass',
+                'result': columns
             })
 
 
-app.add_route("/api/v1/view-columns", ViewColumnsResource())
+app.add_route('/api/v1/view-columns', ViewColumnsResource())
