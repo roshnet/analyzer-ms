@@ -39,7 +39,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="xbg-custom-blue-dark xtext-grey-1">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -61,7 +61,7 @@ export default {
       essentialLinks: [
         {
           title: 'Home',
-          caption: '/',
+          caption: 'Start here',
           icon: 'home',
           link: '/'
         },
@@ -76,9 +76,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.bg-custom-blue-dark {
-  background: rgb(27, 30, 58);
-}
-</style>
