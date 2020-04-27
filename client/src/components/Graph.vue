@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import CardBase from 'components/CardBase'
-import VueApexChart from 'vue-apexcharts'
-
 export default {
   components: {
-    CardBase,
-    ApexChart: VueApexChart
+    CardBase: () => import(/* webpackChunkName: "CardBaseComponent" */'components/CardBase'),
+    ApexChart: () => import(/* webpackChunkName: "ApexChartRoot" */'vue-apexcharts')
   },
 
   data() {
