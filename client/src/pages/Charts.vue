@@ -1,66 +1,83 @@
 <template>
-  <q-page class="flex flex-center">
-    {{ columns }}
+  <q-page class="q-ma-lg">
     <div class="row q-col-gutter-md">
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph></graph>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph></graph> 
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph></graph>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph bgColor="red"></graph>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph></graph>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <graph></graph>
+      <div class="col-12 q-pa-md">
+        <q-markup-table>
+          <thead>
+            <tr>
+               <th
+                 v-for="(column, idx) in columnNames"
+                 class="text-center"
+                 :key="idx"
+                >
+                  {{ column }}
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, i) in rows" :key="i">
+              <td v-for="(item, ii) in row" class="text-center" :key="ii">
+                {{ item }}
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import Graph from 'components/Graph'
-
 export default {
   name: 'ChartsPage',
 
-  components: {
-    Graph
-  },
-
   data() {
     return {
-      columns: [],
-      series: [],
-      chartOptions: {
-        xaxis: {
-           categories: []
-        }
-      }
+      totalData: null,
+      columnNames: null,
+      rows: []
     }
   },
 
   methods: {
-    fetchColumnNames() {
-      const endpoint = process.env.API + 'view-columns'
+    fetchColumnData() {
+      const endpoint = process.env.API + 'summary'
       // The axios call executes in a different routine by itself,
       // i.e. it is non-blocking in nature by default.
       this.$axios
         .get(endpoint)
         .then((response) => {
-          this.columns = response.data.result
+          this.totalData = response.data.result
+          this.columnNames =  Object.keys(this.totalData)
+          this.setConfigVariables()          
         })
+        .catch((err) => {
+          console.error(">>> Shit hit the fan: ", err)
+        })
+    },
+    setConfigVariables() {
+      /*
+      This logic was written by me (@roshnet) when I hadn't slept for over 30
+      hours. Please be kind to file a GitHub issue about anything you think
+      seems off.
+      */
+
+      // #-of-items per row ('0' here can be anything, since all fields are
+      // assumed to have the same number of items)
+      let arbitraryRow = this.totalData[this.columnNames[0]];
+
+      for (let r in arbitraryRow) {
+        let row = Array()
+        for (let col of this.columnNames) {
+          row.push(this.totalData[col][r])
+        }
+        this.rows.push(row)
+      }
     }
   },
 
-  created() {
-    this.fetchColumnNames()
+  mounted() {
+    this.fetchColumnData()
   }
 }
 </script>
