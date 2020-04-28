@@ -1,8 +1,9 @@
 from . import df
 
-def get_columns_from_excel():
+def get_summary_from_excel():
     '''
-    Returns a list of columns in the temporary excel.
+    Returns a list of columns in the temporary excel, along with at most the
+    first five entries.
     Returns an error if one occurred.
     '''
     try:
@@ -11,7 +12,7 @@ def get_columns_from_excel():
         return '', str(err)
 
 
-def prepare_pivot_payload(column):
+def get_pivot_payload(column):
     '''
     Generates a JSON <dict> payload to be used by the REST client.
 
