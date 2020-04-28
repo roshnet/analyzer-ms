@@ -1,10 +1,10 @@
 import falcon
 import json
 from src import app
-from src.utils.payload import get_columns_from_excel
+from src.utils.payload import get_summary_from_excel
 
 
-class ViewColumnsResource:
+class DataSummaryResource:
     def on_get(self, req, resp):
         columns, err = get_columns_from_excel()
         if err is not None:
@@ -20,4 +20,4 @@ class ViewColumnsResource:
             })
 
 
-app.add_route('/api/v1/view-columns', ViewColumnsResource())
+app.add_route('/api/v1/summarize', DataSummaryResource())
