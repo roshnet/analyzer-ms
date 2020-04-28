@@ -6,7 +6,7 @@ from src.utils.payload import get_summary_from_excel
 
 class DataSummaryResource:
     def on_get(self, req, resp):
-        columns, err = get_columns_from_excel()
+        columns, err = get_summary_from_excel()
         if err is not None:
             resp.status = falcon.HTTP_500
             resp.body = json.dumps({
@@ -20,4 +20,4 @@ class DataSummaryResource:
             })
 
 
-app.add_route('/api/v1/summarize', DataSummaryResource())
+app.add_route('/api/v1/summary', DataSummaryResource())
