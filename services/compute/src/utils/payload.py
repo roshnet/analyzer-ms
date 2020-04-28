@@ -7,7 +7,7 @@ def get_summary_from_excel():
     Returns an error if one occurred.
     '''
     try:
-        return df.head().to_dict(), None
+        return df.head().to_dict(orient='list'), None
     except Exception as err:
         return '', str(err)
 
