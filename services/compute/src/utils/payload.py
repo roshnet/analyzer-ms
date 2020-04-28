@@ -6,7 +6,7 @@ def get_columns_from_excel():
     Returns an error if one occurred.
     '''
     try:
-        return list(df.columns), None
+        return df.head().to_dict(), None
     except Exception as err:
         return '', str(err)
 
