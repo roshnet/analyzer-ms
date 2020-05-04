@@ -41,7 +41,7 @@ export default {
 
   methods: {
     fetchColumnData() {
-      const endpoint = process.env.API + 'summary'
+      const endpoint = process.env.DEV_API + '/summary'
       // The axios call executes in a different routine by itself,
       // i.e. it is non-blocking in nature by default.
       this.$axios
@@ -49,13 +49,13 @@ export default {
         .then((response) => {
           this.totalData = response.data.result
           this.columnNames =  Object.keys(this.totalData)
-          this.setConfigVariables()          
+          this.fillRows()          
         })
         .catch((err) => {
           console.error(">>> Shit hit the fan: ", err)
         })
     },
-    setConfigVariables() {
+    fillRows() {
       /*
       This logic was written by me (@roshnet) when I hadn't slept for over 30
       hours. Please be kind to file a GitHub issue about anything you think
