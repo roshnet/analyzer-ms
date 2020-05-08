@@ -19,17 +19,35 @@ export default {
 
   props: {
     series: {
+      type: Array,
       required: true
     },
     options: {
       required: false,
-      default: {
-        xaxis: {
-          // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-          labels: {
-            style: {
-              colors: '#fff'
+      type: Object,
+      default: function () {
+        return {
+          xaxis: {
+            labels: {
+              style: {
+                colors: '#0f0'
+              }
             }
+          },
+          chart: {
+            foreColor: '#0f0',
+            background: '#000'
+          },
+          title: {
+            text: 'Some Samples',
+            align: 'left',
+            style: {
+              color: '#0a0'
+            }
+          },
+          theme: {
+            mode: 'dark',
+            palette: 'palette1'
           }
         }
       }
