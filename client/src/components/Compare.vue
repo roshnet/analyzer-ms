@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <main>
     <div class="text-h6 text-weight-light">
       Pick one column out of
       <q-btn-dropdown
         :disable="!columnsReady"
-        class="bg-transparent text-green"
-        dense
         :loading="!columnsReady"
+        dense
+        class="bg-transparent text-green"
         label="Available Columns"
       >
         <q-list>
@@ -32,13 +32,22 @@
         Analyzing column <code class="bg-green-9 q-pa-xs">{{ activecolumn }}</code>
       </h3>
     </div>
-  </div>
+
+    <div>
+      <Graph
+        v-for="(graph, i) in graphsPayload"
+        :key="i"
+        :series="graph.series"
+        :options="graph.options"
+      />
+    </div>
+  </main>
 </template>
 
 <script>
 export default {
   components: {
-    // Graph: () => import(/*webpackChunkName: Graph*/'components/Graph')
+    Graph: () => import(/* webpackChunkName: "GraphComponent" */'components/Graph')
   },
 
   data() {
@@ -54,6 +63,12 @@ export default {
 
       // the column to pivot against (aka the active column)
       activecolumn: null,
+
+      // everything the Graph component needs
+      graphData: null,
+
+      // a list of objects as payload for the Graph component
+      graphsPayload: null
     }
   },
 
@@ -72,12 +87,20 @@ export default {
     },
 
     getPivotValues(column) {
-      this.activecolumn = column
+      /*
+      Every click on dropdown menu results in another API call.
+      This needs to be avoided.
+      A better strategy will be to call the API on mount, and store all
+      content in a Vuex store. The other functions will then simply remodel
+      the stored data, and provide that to the Graph component via a cached
+      property.
+      */
+      this.activecolumn = column      
       const endpoint = process.env.DEV_API + '/pivot?about=' + column
       this.$axios
         .get(endpoint)
         .then((response) => {
-          console.warn(response.data.result);
+          this.graphData = response.data.result
         })
         .catch((err) => {
           console.error(">>> Shit hit the fan: ", err)
@@ -85,7 +108,34 @@ export default {
     }
   },
 
-  beforeMount() {
+  watch: {
+    graphData() {
+      let _graphs = []
+      for (let block of this.graphData['y_axis']) {
+        _graphs.push({
+          series:[{
+            name: block['column'],
+            data: block['values']
+          }],
+          options: {
+            yaxis: {
+              title: {
+                text: block['column']
+              }
+            },
+            xaxis: {
+              title: {
+                text: this.activecolumn
+              }
+            }
+          }
+        })
+      }
+      this.graphsPayload = _graphs
+    },
+  },
+
+  mounted() {
     this.getColumnNames()
   }
 }
