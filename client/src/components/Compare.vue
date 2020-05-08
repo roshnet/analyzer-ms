@@ -6,6 +6,7 @@
         :disable="!columnsReady"
         class="bg-transparent text-green"
         dense
+        :loading="!columnsReady"
         label="Available Columns"
       >
         <q-list>
